@@ -11,10 +11,13 @@ function ToastProvider({children}) {
     {'id': crypto.randomUUID(),'variant': 'error', 'message': 'some error message'}
   ]);
   
-  useEscapeKey(() => {
+  // use a callback to avoid unnecessary re-render with the useEscapeKey hook
+  const handleEscape = React.useCallback(() => {
     // Code to dismiss all toasts
-    setToastList([])
-  });
+    setToastList([]);
+  }, []);
+
+  useEscapeKey(handleEscape);
 
   // remove toast from list (used in the Toast component)
   function removeToast(id) {
